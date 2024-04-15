@@ -9,7 +9,7 @@
         <template v-if="true">
           <li>
             <a href="javascript:;">
-              <i class="iconfont ison-user"></i>
+              <i class="iconfont icon-user"></i>
               用户名
             </a>
           </li>

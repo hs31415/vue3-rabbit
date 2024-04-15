@@ -1,7 +1,7 @@
-import '@/styles/commen.scss'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+
+import '@/styles/commen.scss'
 
 import App from './App.vue'
 import router from './router'
