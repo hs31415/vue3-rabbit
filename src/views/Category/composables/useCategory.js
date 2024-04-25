@@ -6,7 +6,7 @@ export function useCategory () {
   const categoryList = ref({})
   const route = useRoute()
 
-  const getCategory = async (id = route.params.is) => {
+  const getCategory = async (id = route.params.id) => {
     const res = await getCategoryAPI(id)
     categoryList.value = res.result
   }
