@@ -19,6 +19,12 @@ onMounted(() => {
   getGoodDetail(route.params.id)
 })
 
+let skuObj = {}
+const skuChange = (sku) => {
+  skuObj = sku
+  console.log(skuObj)
+}
+
 </script>
 
 <template>
@@ -40,6 +46,7 @@ onMounted(() => {
         <div>
           <div class="goods-info">
             <div class="media">
+              <ImageViews :image-list="goodDetail.mainPictures"/>
               <ul class="goods-sales">
                 <li>
                   <p>销量人气</p>
@@ -85,6 +92,7 @@ onMounted(() => {
                   </dd>
                 </dl>
               </div>
+              <Sku :goods="goodDetail" @change="skuChange"/>
 
               <div>
                 <el-button size="large" class="btn">
