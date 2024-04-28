@@ -1,6 +1,5 @@
 <script setup>
 import {ref} from 'vue';
-import {loginAPI} from '@/apis/user';
 import {useRouter} from 'vue-router';
 import { useUserStore } from '@/stores/userStore';
 
@@ -38,7 +37,6 @@ const doLogin = () => {
 
     if(valid){
       await userStore.getUserInfo({account, password})
-
       ElMessage.success('登录成功')
       router.replace({ path: '/' })
     }else{
