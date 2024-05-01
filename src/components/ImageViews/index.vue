@@ -9,7 +9,7 @@ const props = defineProps({
   imageList: Array
 })
 
-const imageList = props.imageList 
+const imageList = ref(props.imageList) 
 
 const target = ref(null)
 const {elementX, elementY, isOutside} = useMouseInElement(target)
@@ -24,6 +24,11 @@ watch([elementX, elementY, isOutside], () => {
   left.value =  elementX.value - 100
   top.value = elementY.value - 100
 })
+
+watch(() => props.imageList, (newValue) => {
+  imageList.value = newValue;
+});
+
 </script>
 
 <template>

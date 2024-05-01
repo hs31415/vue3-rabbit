@@ -1,6 +1,7 @@
 <script>
 import {watchEffect} from 'vue'
 import getPowerSet from './power-set'
+import { ElMessage } from 'element-plus'
 const spliter = '★' 
 
 const getPathMap = (skus) => {
@@ -77,7 +78,10 @@ export default {
     })
 
     const clickSpecs = (item, val)=>{
-      if(val.disabled)return false
+      if(val.disabled){
+        ElMessage.warning("该商品规格无货")
+        return false
+      }
       if(val.selected){
         val.selected = false
       }else{
@@ -113,10 +117,16 @@ export default {
     <dt>{{ item.name }}</dt>
     <dd>
       <template v-for="val in item.values" :key="val.name">
-        <img :class="{selected: val.selected, disabled:val.disabled}" @click="clickSpecs(item, val)"
-        v-if="val.picture" :src="val.picture"/>
-        <span :class="{selected: val.selected, disabled:val.disabled}" @click="clickSpecs(item,val)" v-else>
-        {{ val.name }}</span>
+        <img v-if="val.picture" 
+          :class="{selected: val.selected, disabled:val.disabled}" 
+          @click="clickSpecs(item, val)"
+          :src="val.picture"
+          />
+        <span v-else 
+          :class="{selected: val.selected, disabled:val.disabled}" 
+          @click="clickSpecs(item,val)">
+          {{ val.name }}
+      </span>
       </template>
     </dd>
   </dl>
@@ -133,9 +143,9 @@ export default {
     border-color:$xtxColor;
   }
 
-  &:disabled{
+  &.disabled{
     opacity:0.6;
-    border-style:dashed;
+    background: gray;
     cursor:not-allowed;
   }
 }

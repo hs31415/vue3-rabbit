@@ -3,7 +3,10 @@ import {getDetailAPI} from '@/apis/detail'
 import {useRoute, onBeforeRouteUpdate} from 'vue-router'
 import {ref, onMounted} from 'vue'
 import DetailHot from './components/DetailHot.vue'
+import { useCartStore } from '@/stores/cartStore'
+import { ElMessage } from 'element-plus'
 
+const cartStore = useCartStore()
 const goodDetail = ref({})
 const route = useRoute()
 const getGoodDetail = async (id) => {
@@ -12,6 +15,8 @@ const getGoodDetail = async (id) => {
 }
 
 onBeforeRouteUpdate((to) => {
+  ElMessage.warning('切换商品中...')
+  skuObj = {}
   getGoodDetail(to.params.id)
 })
 
@@ -23,6 +28,31 @@ let skuObj = {}
 const skuChange = (sku) => {
   skuObj = sku
   console.log(skuObj)
+}
+
+const count = ref(1)
+const countChange = (count) => {
+  console.log(count)
+}
+
+const addCart = () => {
+  if(skuObj.skuId){
+    console.log(skuObj, cartStore.addCart)
+    cartStore.addCart({
+      id: goodDetail.value.id,
+      name:goodDetail.value.name,
+      picture:goodDetail.value.mainPictures[0],
+      price:goodDetail.value.price,
+      count:count.value,
+      skuId:skuObj.skuId,
+      attrsText:skuObj.specsText,
+      selecred:true,
+    })
+    
+    console.log(skuObj, cartStore.addCart)
+  }else{
+    ElMessage.warning('请选择商品规格')
+  }
 }
 
 </script>
@@ -93,9 +123,9 @@ const skuChange = (sku) => {
                 </dl>
               </div>
               <Sku :goods="goodDetail" @change="skuChange"/>
-
+              <el-input-number v-model="count" @change="countChange"></el-input-number>
               <div>
-                <el-button size="large" class="btn">
+                <el-button @click="addCart" size="large" class="btn">
                   加入购物车
                 </el-button>
               </div>
